@@ -9,7 +9,12 @@
       </p>
     </div>
     <div class="space-y-6">
-      <PostCard v-for="post in visiblePosts" :key="post.id" :post="post" />
+      <PostCard
+        v-for="(post, index) in visiblePosts"
+        :key="post.id"
+        :post="post"
+        :ref="(el) => setLastElementRef(el, index, visiblePosts.length - 1)"
+      />
     </div>
     <div v-if="isLoading" class="loading-more">
       <div class="loading-spinner"></div>
@@ -28,27 +33,28 @@
 </template>
 
 <script setup>
-  import { computed } from 'vue'
-  import { posts } from '../data/posts.js'
-  import { useInfiniteScroll } from '../composables/useInfiniteScroll.js'
-  import PostCard from '../components/PostCard.vue'
+import { computed } from 'vue'
+import { posts } from '../data/posts.js'
+import { useInfiniteScroll } from '../composables/useInfiniteScroll.js'
+import PostCard from '../components/PostCard.vue'
 
-  const props = defineProps({
-    name: {
-      type: String,
-      default: ''
-    }
-  })
+const props = defineProps({
+  name: {
+    type: String,
+    default: ''
+  }
+})
 
-  const categoryName = computed(() => props.name)
+const categoryName = computed(() => props.name)
 
-  const filteredPosts = computed(() => {
-    return posts.filter((post) => post.category === props.name)
-  })
+const filteredPosts = computed(() => {
+  return posts.filter((post) => post.category === props.name)
+})
 
-  const {
-    visibleItems: visiblePosts,
-    hasMore,
-    isLoading
-  } = useInfiniteScroll(filteredPosts, 4)
+const {
+  visibleItems: visiblePosts,
+  hasMore,
+  isLoading,
+  setLastElementRef
+} = useInfiniteScroll(filteredPosts, 4)
 </script>

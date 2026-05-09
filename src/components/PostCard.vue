@@ -1,5 +1,6 @@
 <template>
   <article
+    ref="articleRef"
     class="bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-shadow p-6 mb-6 group cursor-pointer"
     @click="handleCardClick"
   >
@@ -55,9 +56,11 @@
 </template>
 
 <script setup>
+  import { ref, defineExpose } from 'vue'
   import { useRouter } from 'vue-router'
 
   const router = useRouter()
+  const articleRef = ref(null)
 
   const props = defineProps({
     post: {
@@ -69,4 +72,8 @@
   const handleCardClick = () => {
     router.push(`/post/${props.post.id}`)
   }
+
+  defineExpose({
+    $el: articleRef
+  })
 </script>

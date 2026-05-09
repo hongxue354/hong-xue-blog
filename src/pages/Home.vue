@@ -4,7 +4,12 @@
       <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">
         最新文章
       </h1>
-      <PostCard v-for="post in visiblePosts" :key="post.id" :post="post" />
+      <PostCard
+        v-for="(post, index) in visiblePosts"
+        :key="post.id"
+        :post="post"
+        :ref="(el) => setLastElementRef(el, index, visiblePosts.length - 1)"
+      />
       <div v-if="isLoading" class="loading-more">
         <div class="loading-spinner"></div>
         <span>加载中...</span>
@@ -56,13 +61,14 @@
 </template>
 
 <script setup>
-  import { posts, categories, tags } from '../data/posts.js'
-  import { useInfiniteScroll } from '../composables/useInfiniteScroll.js'
-  import PostCard from '../components/PostCard.vue'
+import { posts, categories, tags } from '../data/posts.js'
+import { useInfiniteScroll } from '../composables/useInfiniteScroll.js'
+import PostCard from '../components/PostCard.vue'
 
-  const {
-    visibleItems: visiblePosts,
-    hasMore,
-    isLoading
-  } = useInfiniteScroll(posts, 4)
+const {
+  visibleItems: visiblePosts,
+  hasMore,
+  isLoading,
+  setLastElementRef
+} = useInfiniteScroll(posts, 4)
 </script>
