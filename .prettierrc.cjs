@@ -1,0 +1,11 @@
+module.exports = {
+  semi: false,
+  trailingComma: 'none',
+  singleQuote: true,
+  printWidth: 80,
+  tabWidth: 2,
+  useTabs: false,
+  endOfLine: 'lf',
+  arrowParens: 'always',
+  vueIndentScriptAndStyle: true
+}
